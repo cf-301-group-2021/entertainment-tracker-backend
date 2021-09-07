@@ -21,6 +21,14 @@ Data.createUserLists = async(req,res,errorHandler) => {
 	}
 }
 
+Data.updateUserLists = async(req,res,errorHandler) => {
+	try {
+
+	} catch(error) { 
+		console.error(error);
+		errorHandler(error); 
+	}
+}
 
 // Data.addAnItem = async(req,res,next) => {
 // 	try {
