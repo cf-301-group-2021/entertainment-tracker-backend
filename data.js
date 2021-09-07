@@ -30,52 +30,6 @@ Data.searchTvShows = async (req, res) => {
   }
 };
 
-/**
- * @param req Request object
- * @param res Response object
- * @param {function(object)} errorHandler
- * @returns {Promise<void>}
- */
-Data.getUserShows = async (req, res) => {
-  try {
-    const userId = req.params.userId;
-
-    const items = await ShowModel.find({
-        email: userId,
-      },
-    );
-    res.status(200).json(items);
-  } catch (error) {
-    console.error(error);
-    // todo: differentiate server/client errors
-    res.status(404);
-  }
-};
-
-Data.createUserShows = async (req, res) => {
-  try {
-
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-Data.updateUserShows = async (req, res) => {
-  try {
-
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-Data.deleteUserShow = async (req, res) => {
-  try {
-
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 Data.getShowUpdates = async (req, res) => {
   try {
 
@@ -100,6 +54,66 @@ Data.logoutUser = async (req, res) => {
   }
 };
 
+/**
+ * @param req Request object
+ * @param res Response object
+ * @param {function(object)} errorHandler
+ * @returns {Promise<void>}
+ */
+Data.getUserShows = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    const items = await ShowModel.find({
+        email: userId,
+      },
+    );
+    res.status(200).json(items);
+  } catch (error) {
+    console.error(error);
+    // todo: differentiate server/client errors
+    res.status(404);
+  }
+};
+
+Data.createUserShows = async (req, res) => {
+  try {
+    switch (typeof req.body) {
+      case typeof []:
+        const shows = [];
+        for (const showData of req.body) {
+          shows.push(new ShowModel(showData));
+        }
+        await ShowModel.insertMany(shows);
+        res.status(200).json(item);
+        break;
+      default:
+        const show = new ShowModel(req.body);
+        await show.save();
+        res.status(200).json(item);
+    }
+  } catch (error) {
+    console.error(error);
+    // todo: differentiate server/client errors
+    res.status(404);
+  }
+};
+
+Data.updateUserShows = async (req, res) => {
+  try {
+
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+Data.deleteUserShow = async (req, res) => {
+  try {
+
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 // Data.getAllItems = async(req, res) => {
 // 	const data = req.body;
