@@ -16,6 +16,7 @@ app.get('/items/:userId', Data.getUserLists);
 app.post('/items/:userId', Data.createUserLists);
 app.put('/items/:userId', Data.updateUserLists);
 app.delete('/items/:userId', Data.deleteUserLists);
+app.post('/updates', Data.getItemUpdates);
 
 // app.get('/items', Data.getAllItems);
 // app.get('/items/:id', Data.getOneItem);
