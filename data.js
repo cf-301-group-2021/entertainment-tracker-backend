@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 
 // const ItemModel = require('./item-model.js');
-const Data = { };
+const Data = {};
 
 // Data.addAnItem = async(req,res,next) => {
 // 	try {
@@ -18,78 +18,77 @@ const Data = { };
 // 	res.status(200).json(items[0]);
 // }
 
-Data.searchTvShows = async(req,res,errorHandler) => {
+Data.searchTvShows = async (req, res, errorHandler) => {
   try {
 
-  } catch(error) {
+  } catch (error) {
     console.error(error);
     errorHandler(error);
   }
-}
+};
 
-Data.getUserShows = async(req,res,errorHandler) => {
-	try {
+Data.getUserShows = async (req, res, errorHandler) => {
+  try {
 
-	} catch(error) {
-		console.error(error);
-		errorHandler(error);
-	}
-}
+  } catch (error) {
+    console.error(error);
+    errorHandler(error);
+  }
+};
 
-Data.createUserShows = async(req,res,errorHandler) => {
-	try {
+Data.createUserShows = async (req, res, errorHandler) => {
+  try {
 
-	} catch(error) {
-		console.error(error);
-		errorHandler(error);
-	}
-}
+  } catch (error) {
+    console.error(error);
+    errorHandler(error);
+  }
+};
 
-Data.updateUserShows = async(req,res,errorHandler) => {
-	try {
+Data.updateUserShows = async (req, res, errorHandler) => {
+  try {
 
-	} catch(error) {
-		console.error(error);
-		errorHandler(error);
-	}
-}
+  } catch (error) {
+    console.error(error);
+    errorHandler(error);
+  }
+};
 
-Data.deleteUserShow = async(req,res,errorHandler) => {
-	try {
+Data.deleteUserShow = async (req, res, errorHandler) => {
+  try {
 
-	} catch(error) {
-		console.error(error);
-		errorHandler(error);
-	}
-}
+  } catch (error) {
+    console.error(error);
+    errorHandler(error);
+  }
+};
 
-Data.getShowUpdates = async(req,res,errorHandler) => {
-	try {
+Data.getShowUpdates = async (req, res, errorHandler) => {
+  try {
 
-	} catch(error) {
-		console.error(error);
-		errorHandler(error);
-	}
-}
+  } catch (error) {
+    console.error(error);
+    errorHandler(error);
+  }
+};
 
-Data.loginUser = async(req,res,errorHandler) => {
-	try {
+Data.loginUser = async (req, res, errorHandler) => {
+  try {
 
-	} catch(error) {
-		console.error(error);
-		errorHandler(error);
-	}
-}
+  } catch (error) {
+    console.error(error);
+    errorHandler(error);
+  }
+};
 
-Data.logoutUser = async(req,res,errorHandler) => {
-	try {
+Data.logoutUser = async (req, res, errorHandler) => {
+  try {
 
-	} catch(error) {
-		console.error(error);
-		errorHandler(error);
-	}
-}
-
+  } catch (error) {
+    console.error(error);
+    errorHandler(error);
+  }
+};
 
 
 // Data.getAllItems = async(req, res) => {
