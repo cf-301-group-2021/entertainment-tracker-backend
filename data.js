@@ -1,6 +1,6 @@
 "use strict";
 
-// const ItemModel = require('./item-model.js');
+const ShowModel = require('./models/ShowModel');
 const Data = {};
 
 // Data.addAnItem = async(req,res,next) => {
@@ -27,9 +27,20 @@ Data.searchTvShows = async (req, res, errorHandler) => {
   }
 };
 
+/**
+ * @param req Request object
+ * @param res Response object
+ * @param {function(object)} errorHandler
+ * @returns {Promise<void>}
+ */
 Data.getUserShows = async (req, res, errorHandler) => {
   try {
+    const data = req.params.userId;
+    const items = await ShowModel.find({
 
+      },
+    );
+    res.status(200).json(items);
   } catch (error) {
     console.error(error);
     errorHandler(error);
