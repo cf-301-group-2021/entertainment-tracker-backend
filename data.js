@@ -1,87 +1,119 @@
-'use strict';
+"use strict";
 
-// const ItemModel = require('./item-model.js');
-const Data = { };
+const ShowModel = require("./models/ShowModel");
+const Data = {};
 
-// Data.addAnItem = async(req,res,next) => {
-// 	try {
-// 		const data = req.body;
-// 		const item = new ItemModel(data);
-// 		await item.save();
-// 		res.status(200).json(item);
-// 	} catch(e) { next(e.message); }
-// 	}
-
-// Data.getOneItem = async(req, res) => {
-// 	const id = req.params.id;
-// 	const items = await ItemModel.find({_id:id});
-// 	res.status(200).json(items[0]);
-// }
-
-Data.getUserShows = async(req,res,errorHandler) => {
+/*
+Data.addAnItem = async(req,res,next) => {
 	try {
-
-	} catch(error) { 
-		console.error(error);
-		errorHandler(error); 
+		const data = req.body;
+		const item = new ItemModel(data);
+		await item.save();
+		res.status(200).json(item);
+	} catch(e) { next(e.message); }
 	}
+*/
+
+/*
+Data.getOneItem = async(req, res) => {
+	const id = req.params.id;
+	const items = await ItemModel.find({_id:id});
+	res.status(200).json(items[0]);
 }
+*/
 
-Data.createUserShows = async(req,res,errorHandler) => {
-	try {
+Data.searchTvShows = async (req, res) => {
+  try {
 
-	} catch(error) { 
-		console.error(error);
-		errorHandler(error); 
-	}
-}
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-Data.updateUserShows = async(req,res,errorHandler) => {
-	try {
+Data.getShowUpdates = async (req, res) => {
+  try {
 
-	} catch(error) { 
-		console.error(error);
-		errorHandler(error); 
-	}
-}
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-Data.deleteUserShow = async(req,res,errorHandler) => {
-	try {
+Data.loginUser = async (req, res) => {
+  try {
 
-	} catch(error) { 
-		console.error(error);
-		errorHandler(error); 
-	}
-}
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-Data.getShowUpdates = async(req,res,errorHandler) => {
-	try {
+Data.logoutUser = async (req, res) => {
+  try {
 
-	} catch(error) { 
-		console.error(error);
-		errorHandler(error); 
-	}
-}
+  } catch (error) {
+    console.error(error);
+  }
+};
 
-Data.loginUser = async(req,res,errorHandler) => {
-	try {
+/**
+ * @param req Request object
+ * @param res Response object
+ * @param {function(object)} errorHandler
+ * @returns {Promise<void>}
+ */
+Data.getUserShows = async (req, res) => {
+  try {
+    const userId = req.params.userId;
 
-	} catch(error) { 
-		console.error(error);
-		errorHandler(error); 
-	}
-}
+    const items = await ShowModel.find({
+        email: userId,
+      },
+    );
+    res.status(200).json(items);
+  } catch (error) {
+    console.error(error);
+    // todo: differentiate server/client errors
+    res.status(404);
+  }
+};
 
-Data.logoutUser = async(req,res,errorHandler) => {
-	try {
+Data.createUserShows = async (req, res) => {
+  try {
+    switch (typeof req.body) {
+      case typeof []:
+        const shows = [];
+        for (const showData of req.body) {
+          shows.push(new ShowModel(showData));
+        }
+        await ShowModel.insertMany(shows);
+        res.status(200).json(item);
+        break;
+      default:
+        const show = new ShowModel(req.body);
+        await show.save();
+        res.status(200).json(item);
+    }
+  } catch (error) {
+    console.error(error);
+    // todo: differentiate server/client errors
+    res.status(404);
+  }
+};
 
-	} catch(error) { 
-		console.error(error);
-		errorHandler(error); 
-	}
-}
+Data.updateUserShows = async (req, res) => {
+  try {
 
+  } catch (error) {
+    console.error(error);
+  }
+};
 
+Data.deleteUserShow = async (req, res) => {
+  try {
+
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 // Data.getAllItems = async(req, res) => {
 // 	const data = req.body;
