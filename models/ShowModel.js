@@ -63,6 +63,7 @@ const mongoose = require("mongoose");
 const ShowSchema = new mongoose.Schema({
   showTitle: { type: "String", required: true }, // derived from name
   showDesc: { type: "String", required: true }, // derived from summary
+  showStatus: { type: "String", required: true }, // derived from status
   showNextEpisodeTime: { type: "String", required: true }, // derived from schedule.time
   showNextEpisodeDayOfWeek: { type: "String[]", required: true }, // derived from schedule.days[]
   showNetwork: { type: "String", required: true }, // derived from network.name

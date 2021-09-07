@@ -2,6 +2,9 @@
 
 const ShowModel = require("./models/ShowModel");
 const Data = {};
+const { Mongoose } = require("mongoose");
+
+Mongoose.connect(process.env.CONNECTION_STRING,{useNewUrlParser: true, useUnifiedTopology: true});
 
 /*
 Data.addAnItem = async(req,res,next) => {
