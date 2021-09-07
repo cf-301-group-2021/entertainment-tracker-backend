@@ -4,7 +4,7 @@ const express = require("express");
 const cors = require("cors");
 const Data = require("./data");
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 80;
 
 console.log(`Connecting with ${PORT}`);
 
