@@ -30,6 +30,15 @@ Data.updateUserLists = async(req,res,errorHandler) => {
 	}
 }
 
+Data.deleteUserList = async(req,res,errorHandler) => {
+	try {
+
+	} catch(error) { 
+		console.error(error);
+		errorHandler(error); 
+	}
+}
+
 // Data.addAnItem = async(req,res,next) => {
 // 	try {
 // 		const data = req.body;
