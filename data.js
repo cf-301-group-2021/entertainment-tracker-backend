@@ -48,6 +48,15 @@ Data.getItemUpdates = async(req,res,errorHandler) => {
 	}
 }
 
+Data.loginUser = async(req,res,errorHandler) => {
+	try {
+
+	} catch(error) { 
+		console.error(error);
+		errorHandler(error); 
+	}
+}
+
 // Data.addAnItem = async(req,res,next) => {
 // 	try {
 // 		const data = req.body;
