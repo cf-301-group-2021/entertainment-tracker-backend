@@ -13,6 +13,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
 app.get('/items/:userId', Data.getUserLists);
+app.post('/items/:userId', Data.createUserLists);
 
 // app.get('/items', Data.getAllItems);
 // app.get('/items/:id', Data.getOneItem);
