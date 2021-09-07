@@ -1,29 +1,32 @@
 "use strict";
 
-const ShowModel = require('./models/ShowModel');
+const ShowModel = require("./models/ShowModel");
 const Data = {};
 
-// Data.addAnItem = async(req,res,next) => {
-// 	try {
-// 		const data = req.body;
-// 		const item = new ItemModel(data);
-// 		await item.save();
-// 		res.status(200).json(item);
-// 	} catch(e) { next(e.message); }
-// 	}
+/*
+Data.addAnItem = async(req,res,next) => {
+	try {
+		const data = req.body;
+		const item = new ItemModel(data);
+		await item.save();
+		res.status(200).json(item);
+	} catch(e) { next(e.message); }
+	}
+*/
 
-// Data.getOneItem = async(req, res) => {
-// 	const id = req.params.id;
-// 	const items = await ItemModel.find({_id:id});
-// 	res.status(200).json(items[0]);
-// }
+/*
+Data.getOneItem = async(req, res) => {
+	const id = req.params.id;
+	const items = await ItemModel.find({_id:id});
+	res.status(200).json(items[0]);
+}
+*/
 
 Data.searchTvShows = async (req, res, errorHandler) => {
   try {
 
   } catch (error) {
     console.error(error);
-    errorHandler(error);
   }
 };
 
@@ -79,7 +82,6 @@ Data.getShowUpdates = async (req, res, errorHandler) => {
 
   } catch (error) {
     console.error(error);
-    errorHandler(error);
   }
 };
 
