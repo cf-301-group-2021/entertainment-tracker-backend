@@ -1,9 +1,24 @@
 'use strict';
 
-const ItemModel = require('./item-model.js');
+// const ItemModel = require('./item-model.js');
 const Data = { };
 
-Data.getUserLists = async(req,res,errorHandler) => {
+// Data.addAnItem = async(req,res,next) => {
+// 	try {
+// 		const data = req.body;
+// 		const item = new ItemModel(data);
+// 		await item.save();
+// 		res.status(200).json(item);
+// 	} catch(e) { next(e.message); }
+// 	}
+
+// Data.getOneItem = async(req, res) => {
+// 	const id = req.params.id;
+// 	const items = await ItemModel.find({_id:id});
+// 	res.status(200).json(items[0]);
+// }
+
+Data.getUserShows = async(req,res,errorHandler) => {
 	try {
 
 	} catch(error) { 
@@ -12,7 +27,7 @@ Data.getUserLists = async(req,res,errorHandler) => {
 	}
 }
 
-Data.createUserLists = async(req,res,errorHandler) => {
+Data.createUserShows = async(req,res,errorHandler) => {
 	try {
 
 	} catch(error) { 
@@ -21,7 +36,7 @@ Data.createUserLists = async(req,res,errorHandler) => {
 	}
 }
 
-Data.updateUserLists = async(req,res,errorHandler) => {
+Data.updateUserShows = async(req,res,errorHandler) => {
 	try {
 
 	} catch(error) { 
@@ -30,7 +45,7 @@ Data.updateUserLists = async(req,res,errorHandler) => {
 	}
 }
 
-Data.deleteUserList = async(req,res,errorHandler) => {
+Data.deleteUserShow = async(req,res,errorHandler) => {
 	try {
 
 	} catch(error) { 
@@ -39,7 +54,7 @@ Data.deleteUserList = async(req,res,errorHandler) => {
 	}
 }
 
-Data.getItemUpdates = async(req,res,errorHandler) => {
+Data.getShowUpdates = async(req,res,errorHandler) => {
 	try {
 
 	} catch(error) { 
@@ -66,14 +81,7 @@ Data.logoutUser = async(req,res,errorHandler) => {
 	}
 }
 
-// Data.addAnItem = async(req,res,next) => {
-// 	try {
-// 		const data = req.body;
-// 		const item = new ItemModel(data);
-// 		await item.save();
-// 		res.status(200).json(item);
-// 	} catch(e) { next(e.message); }
-// 	}
+
 
 // Data.getAllItems = async(req, res) => {
 // 	const data = req.body;
