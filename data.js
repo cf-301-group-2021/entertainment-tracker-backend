@@ -18,66 +18,75 @@ const Data = { };
 // 	res.status(200).json(items[0]);
 // }
 
+Data.searchTvShows = async(req,res,errorHandler) => {
+  try {
+
+  } catch(error) {
+    console.error(error);
+    errorHandler(error);
+  }
+}
+
 Data.getUserShows = async(req,res,errorHandler) => {
 	try {
 
-	} catch(error) { 
+	} catch(error) {
 		console.error(error);
-		errorHandler(error); 
+		errorHandler(error);
 	}
 }
 
 Data.createUserShows = async(req,res,errorHandler) => {
 	try {
 
-	} catch(error) { 
+	} catch(error) {
 		console.error(error);
-		errorHandler(error); 
+		errorHandler(error);
 	}
 }
 
 Data.updateUserShows = async(req,res,errorHandler) => {
 	try {
 
-	} catch(error) { 
+	} catch(error) {
 		console.error(error);
-		errorHandler(error); 
+		errorHandler(error);
 	}
 }
 
 Data.deleteUserShow = async(req,res,errorHandler) => {
 	try {
 
-	} catch(error) { 
+	} catch(error) {
 		console.error(error);
-		errorHandler(error); 
+		errorHandler(error);
 	}
 }
 
 Data.getShowUpdates = async(req,res,errorHandler) => {
 	try {
 
-	} catch(error) { 
+	} catch(error) {
 		console.error(error);
-		errorHandler(error); 
+		errorHandler(error);
 	}
 }
 
 Data.loginUser = async(req,res,errorHandler) => {
 	try {
 
-	} catch(error) { 
+	} catch(error) {
 		console.error(error);
-		errorHandler(error); 
+		errorHandler(error);
 	}
 }
 
 Data.logoutUser = async(req,res,errorHandler) => {
 	try {
 
-	} catch(error) { 
+	} catch(error) {
 		console.error(error);
-		errorHandler(error); 
+		errorHandler(error);
 	}
 }
 
