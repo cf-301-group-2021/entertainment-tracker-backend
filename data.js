@@ -22,7 +22,7 @@ Data.getOneItem = async(req, res) => {
 }
 */
 
-Data.searchTvShows = async (req, res, errorHandler) => {
+Data.searchTvShows = async (req, res) => {
   try {
 
   } catch (error) {
@@ -36,7 +36,7 @@ Data.searchTvShows = async (req, res, errorHandler) => {
  * @param {function(object)} errorHandler
  * @returns {Promise<void>}
  */
-Data.getUserShows = async (req, res, errorHandler) => {
+Data.getUserShows = async (req, res) => {
   try {
     const data = req.params.userId;
     const items = await ShowModel.find({
@@ -46,38 +46,10 @@ Data.getUserShows = async (req, res, errorHandler) => {
     res.status(200).json(items);
   } catch (error) {
     console.error(error);
-    errorHandler(error);
   }
 };
 
-Data.createUserShows = async (req, res, errorHandler) => {
-  try {
-
-  } catch (error) {
-    console.error(error);
-    errorHandler(error);
-  }
-};
-
-Data.updateUserShows = async (req, res, errorHandler) => {
-  try {
-
-  } catch (error) {
-    console.error(error);
-    errorHandler(error);
-  }
-};
-
-Data.deleteUserShow = async (req, res, errorHandler) => {
-  try {
-
-  } catch (error) {
-    console.error(error);
-    errorHandler(error);
-  }
-};
-
-Data.getShowUpdates = async (req, res, errorHandler) => {
+Data.createUserShows = async (req, res) => {
   try {
 
   } catch (error) {
@@ -85,21 +57,43 @@ Data.getShowUpdates = async (req, res, errorHandler) => {
   }
 };
 
-Data.loginUser = async (req, res, errorHandler) => {
+Data.updateUserShows = async (req, res) => {
   try {
 
   } catch (error) {
     console.error(error);
-    errorHandler(error);
   }
 };
 
-Data.logoutUser = async (req, res, errorHandler) => {
+Data.deleteUserShow = async (req, res) => {
   try {
 
   } catch (error) {
     console.error(error);
-    errorHandler(error);
+  }
+};
+
+Data.getShowUpdates = async (req, res) => {
+  try {
+
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+Data.loginUser = async (req, res) => {
+  try {
+
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+Data.logoutUser = async (req, res) => {
+  try {
+
+  } catch (error) {
+    console.error(error);
   }
 };
 
