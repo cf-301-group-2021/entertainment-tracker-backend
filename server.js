@@ -12,10 +12,12 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
-app.get('/items', Data.getAllItems);
-app.get('/items/:id', Data.getOneItem);
-app.post('/items', Data.addAnItem);
-app.delete('/items/:id', Data.deleteOne);
+app.get('/items/:userId', Data.getUserLists);
+
+// app.get('/items', Data.getAllItems);
+// app.get('/items/:id', Data.getOneItem);
+// app.post('/items', Data.addAnItem);
+// app.delete('/items/:id', Data.deleteOne);
 
 app.use('*', (req,res) => {
 	res.status(404).send('These are not the droids you are looking for.');
