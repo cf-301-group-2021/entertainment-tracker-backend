@@ -56,7 +56,6 @@
   }
 }
  */
-"use strict";
 
 const mongoose = require("mongoose");
 
@@ -65,7 +64,7 @@ const ShowSchema = new mongoose.Schema({
   showDesc: { type: "String", required: true }, // derived from summary
   showStatus: { type: "String", required: true }, // derived from status
   showNextEpisodeTime: { type: "String", required: true }, // derived from schedule.time
-  showTimeZone: {type:"String", required:true}, // derived from network.country.timezone
+  showTimeZone: { type: "String", required: true }, // derived from network.country.timezone
   showNextEpisodeDayOfWeek: { type: "Array", required: true }, // derived from schedule.days[]
   showNetwork: { type: "String", required: true }, // derived from network.name
   showImageSmall: { type: "String", required: true }, // derived from image.medium
