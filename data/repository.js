@@ -1,7 +1,6 @@
-const ShowModel = require("../models/ShowModel");
 const axios = require("axios");
-// const Repository = {};
-// module.exports = Repository;
+const ShowModel = require("../models/ShowModel");
+const UserModel = require("../models/UserModel");
 
 
 async function getUserShows(userId) {
@@ -25,11 +24,24 @@ async function deleteUserShows(userId, shows) {
 
 };
 
+async function validateCredentials(userId, password) {
+  const userExists = await UserModel.find({
+    userEmail: userId.toLowerCase(),
+  }).length > 0;
+
+  if (userExists) {
+    return true;
+  }
+
+  return false;
+};
+
 module.exports = {
   getUserShows,
   createUserShows,
   updateUserShows,
   deleteUserShows,
+  validateUserAuth: validateCredentials,
 };
 
 /*
