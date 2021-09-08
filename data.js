@@ -2,7 +2,6 @@
 
 const ShowModel = require("./models/ShowModel");
 const axios = require("axios");
-const TvMazeApiKey = process.env.TVMAZE_API_KEY;
 const TvMazeEndpointUri = "https://api.tvmaze.com/search/shows?q=";
 const Data = {};
 module.exports = Data;
