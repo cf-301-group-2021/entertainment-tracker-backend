@@ -24,10 +24,10 @@ async function getUserShows(request, response) {
 };
 
 async function createUserShows(request, response) {
-  console.log("Creating shows...", request.body.length);
+  console.log("Creating shows...", request.body);
 
   try {
-    const show = await ShowModel.insertMany(request.body);
+    const show = await repository.createUserShows(request.params.userId, request.body);
     response.status(HttpStatusCode.OK).json(show);
   } catch (error) {
     console.error(error);
