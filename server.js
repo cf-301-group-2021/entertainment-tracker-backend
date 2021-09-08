@@ -8,7 +8,7 @@ const app = express();
 const PORT = process.env.PORT || 80;
 const mongoose = require("mongoose");
 
-mongoose.connect(process.env.CONNECTION_STRING,{useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(process.env.CONNECTION_STRING, { useNewUrlParser: true, useUnifiedTopology: true });
 
 console.log(`Connecting with ${process.env.PORT}`);
 
@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // tv show search
-app.get("/search/tv/:q", Data.searchTvShows);
+app.get("/search/shows/:query", Data.searchTvShows);
 
 // user's items
 app.get("/shows/:userId", Data.getUserShows);
