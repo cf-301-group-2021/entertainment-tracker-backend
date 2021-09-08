@@ -1,7 +1,11 @@
 "use strict";
 
 const ShowModel = require("./models/ShowModel");
+const axios = require("axios");
+const TvMazeApiKey = process.env.TVMAZE_API_KEY;
+const TvMazeEndpointUri = "https://api.tvmaze.com/search/shows?q=";
 const Data = {};
+module.exports = Data;
 
 /*
 Data.addAnItem = async(req,res,next) => {
@@ -23,10 +27,16 @@ Data.getOneItem = async(req, res) => {
 */
 
 Data.searchTvShows = async (req, res) => {
-  try {
+  const query = encodeURI(`${TvMazeEndpointUri}${req.params.query}`);
+  console.log(query);
 
+  try {
+    const result = await axios.get(query);
+    res.status(200).send(result.data);
   } catch (error) {
     console.error(error);
+    // todo: differentiate server/client errors
+    res.status(404);
   }
 };
 
@@ -77,15 +87,16 @@ Data.getUserShows = async (req, res) => {
 };
 
 Data.createUserShows = async (req, res) => {
-	console.log('hi');
-	try {
-        const show = await ShowModel.insertMany(req.body);
-        res.status(200).json(show);
-    } catch (error) {
-		console.error(error);
-		// todo: differentiate server/client errors
-		res.status(404);
-	}
+  console.log('Creating shows...', req.body.length);
+
+  try {
+    const show = await ShowModel.insertMany(req.body);
+    res.status(200).json(show);
+  } catch (error) {
+    console.error(error);
+    // todo: differentiate server/client errors
+    res.status(404);
+  }
 };
 
 Data.updateUserShows = async (req, res) => {
@@ -115,5 +126,3 @@ Data.deleteUserShow = async (req, res) => {
 // 	const items = await ItemModel.deleteOne({_id:id});
 // 	res.status(200).json(items[0]);
 // }
-
-module.exports = Data;
