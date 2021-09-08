@@ -77,26 +77,15 @@ Data.getUserShows = async (req, res) => {
 };
 
 Data.createUserShows = async (req, res) => {
-  try {
-    switch (typeof req.body) {
-      case typeof []:
-        const shows = [];
-        for (const showData of req.body) {
-          shows.push(new ShowModel(showData));
-        }
-        await ShowModel.insertMany(shows);
-        res.status(200).json(item);
-        break;
-      default:
-        const show = new ShowModel(req.body);
-        await show.save();
-        res.status(200).json(item);
-    }
-  } catch (error) {
-    console.error(error);
-    // todo: differentiate server/client errors
-    res.status(404);
-  }
+	console.log('hi');
+	try {
+        const show = await ShowModel.insertMany(req.body);
+        res.status(200).json(show);
+    } catch (error) {
+		console.error(error);
+		// todo: differentiate server/client errors
+		res.status(404);
+	}
 };
 
 Data.updateUserShows = async (req, res) => {
@@ -119,12 +108,6 @@ Data.deleteUserShow = async (req, res) => {
 // 	const data = req.body;
 // 	const items = await ItemModel.find({});
 // 	res.status(200).json(items);
-// }
-
-// Data.getOneItem = async(req, res) => {
-// 	const id = req.params.id;
-// 	const items = await ItemModel.find({_id:id});
-// 	res.status(200).json(items[0]);
 // }
 
 // Data.deleteOne = async(req, res) => {
