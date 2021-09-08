@@ -1,14 +1,36 @@
 const ShowModel = require("../models/ShowModel");
 const axios = require("axios");
-const Repository = {};
-module.exports = Repository;
+// const Repository = {};
+// module.exports = Repository;
 
 
-Repository.getUserShows = async userId =>
+async function getUserShows(userId) {
   ShowModel.find({
       email: userId,
     },
   );
+}
+
+async function createUserShows(userId, shows) {
+  console.log(userId, shows);
+  // todo: for only this user
+  ShowModel.insertMany(shows);
+};
+
+async function updateUserShows(userId, shows) {
+
+};
+
+async function deleteUserShows(userId, shows) {
+
+};
+
+module.exports = {
+  getUserShows,
+  createUserShows,
+  updateUserShows,
+  deleteUserShows,
+};
 
 /*
 Data.getAllItems = async(req, res) => {
