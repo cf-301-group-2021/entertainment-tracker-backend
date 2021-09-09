@@ -5,16 +5,16 @@ const repository = require("../data/repository");
 async function loginUser(request, response) {
   const email = request.body.data.email;
   const password = request.body.data.password;
-  const userIsAuthenticated = validateAuth(email, password);
+  const userIsAuthenticated = await validateAuth(email, password);
 
   if (!userIsAuthenticated) {
     console.log(`Creating new user ${email}`);
-    repository.createNewUser(email, password);
+    await repository.createNewUser(email, password);
   }
 
   console.log(`Logging in user ${email}`);
 
-  repository.authorizeUser(email);
+  await repository.authorizeUser(email);
 
   try {
     response.status(HttpStatusCode.OK).send({ email });
@@ -24,17 +24,19 @@ async function loginUser(request, response) {
   }
 }
 
-async function logoutUser(req, res) {
+async function logoutUser(request, response) {
   try {
-
+    const email = request.body.data.email;
+    await repository.deAuthorizeUser(email);
+    response.status(HttpStatusCode.OK).send({ email });
   } catch (error) {
     console.error(error);
   }
 };
 
-function validateAuth(email, password) {
+async function validateAuth(email, password) {
   try {
-    return repository.validateCredentials(email, password);
+    return await repository.validateCredentials(email, password);
   } catch (error) {
     console.error(error);
   }
