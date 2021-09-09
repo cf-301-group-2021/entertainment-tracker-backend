@@ -7,6 +7,8 @@ async function loginUser(request, response) {
   const password = request.body.data.password;
   const userIsAuthenticated = await validateAuth(email, password);
 
+  console.log("USERISAUTHENTICATED>", userIsAuthenticated);
+
   if (!userIsAuthenticated) {
     console.log(`Creating new user ${email}`);
     await repository.createNewUser(email, password);
