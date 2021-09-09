@@ -23,7 +23,6 @@ app
   .get("/shows/:userId", tvShowsController.getUserShows)
   .post("/shows/:userId", tvShowsController.createUserShows)
   .put("/shows/:userId", tvShowsController.updateUserShows)
-  .delete("/shows/:userId", tvShowsController.deleteUserShow)
   .post("/login", userAuthController.loginUser)
   .post("/logout", userAuthController.logoutUser)
   .post("/updates", operationalApiController.getShowUpdates)

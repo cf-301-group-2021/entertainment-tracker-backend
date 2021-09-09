@@ -2,48 +2,47 @@ const axios = require("axios");
 const HttpStatusCode = require("../common/httpStatusCodes");
 const repository = require("../data/repository");
 
-async function loginUser(req, res) {
-  let email;
-  let password;
-  let userIsAuthenticated;
+async function loginUser(request, response) {
+  const email = request.body.data.email;
+  const password = request.body.data.password;
+  const userIsAuthenticated = await validateAuth(email, password);
 
-  try {
-    email = req.body.data.email;
-    password = req.body.data.password;
-    userIsAuthenticated = repository.validateUserAuth(email, password);
-  } catch (error) {
-    console.error(error);
+  console.log("USERISAUTHENTICATED>", userIsAuthenticated);
 
-    res
-      .status(HttpStatusCode.CLIENT_ERROR_FORBIDDEN)
-      .send("Unable to validate the account.");
-
-    return;
+  if (!userIsAuthenticated) {
+    console.log(`Creating new user ${email}`);
+    await repository.createNewUser(email, password);
   }
 
-  console.log(`Logging in user ${email}...`);
+  console.log(`Logging in user ${email}`);
+
+  await repository.authorizeUser(email);
 
   try {
-    res
-      .status(HttpStatusCode.OK)
-      .send({
-        email: req.body.data.email,
-        password: req.body.data.password,
-      });
-  } catch
-    (error) {
+    response.status(HttpStatusCode.OK).send({ email });
+  } catch (error) {
     console.error(error);
-    res.status(HttpStatusCode.InternalServerError);
+    response.status(HttpStatusCode.InternalServerError);
   }
 }
 
-async function logoutUser(req, res) {
+async function logoutUser(request, response) {
   try {
-
+    const email = request.body.data.email;
+    await repository.deAuthorizeUser(email);
+    response.status(HttpStatusCode.OK).send({ email });
   } catch (error) {
     console.error(error);
   }
 };
+
+async function validateAuth(email, password) {
+  try {
+    return await repository.validateCredentials(email, password);
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 module.exports = {
   loginUser,

@@ -71,4 +71,7 @@ const ShowSchema = new mongoose.Schema({
   showImageLarge: { type: "String", required: true }, // derived from image.original
 });
 
-module.exports = mongoose.model("Show", ShowSchema);
+module.exports = {
+  Show: mongoose.model("Show", ShowSchema),
+  ShowSchema,
+};

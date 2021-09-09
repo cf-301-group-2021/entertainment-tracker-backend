@@ -4,9 +4,17 @@ const HttpStatusCode = require("../common/httpStatusCodes");
 
 async function updateUserShows(request, response) {
   try {
-
+    const show = await repository
+      .updateUserShows(request.params.userId, request.body);
+    if (!show?.error) {
+      response.status(HttpStatusCode.OK).json(show);
+    } else {
+      response.status(HttpStatusCode.CLIENT_ERROR_FORBIDDEN).send();
+    }
   } catch (error) {
     console.error(error);
+    // todo: differentiate server/client errors
+    response.status(HttpStatusCode.CLIENT_ERROR_NOT_FOUND).send();
   }
 };
 
@@ -15,37 +23,25 @@ async function getUserShows(request, response) {
     const userId = request.params.userId;
 
     const items = await repository.getUserShows(userId);
-    response.status(HttpStatusCode.OK).json(items);
+
+    if (!items?.error) {
+      response.status(HttpStatusCode.OK).json(items);
+    } else {
+      response.status(HttpStatusCode.CLIENT_ERROR_FORBIDDEN).send();
+    }
   } catch (error) {
     console.error(error);
     // todo: differentiate server/client errors
-    response.status(HttpStatusCode.CLIENT_ERROR_NOT_FOUND);
+    response.status(HttpStatusCode.CLIENT_ERROR_NOT_FOUND).send();
   }
 };
 
 async function createUserShows(request, response) {
-  console.log("Creating shows...", request.body);
+  await updateUserShows(request, response);
+}
 
-  try {
-    const show = await repository.createUserShows(request.params.userId, request.body);
-    response.status(HttpStatusCode.OK).json(show);
-  } catch (error) {
-    console.error(error);
-    // todo: differentiate server/client errors
-    response.status(HttpStatusCode.CLIENT_ERROR_NOT_FOUND);
-  }
-};
-
-async function deleteUserShow(request, response) {
-  try {
-
-  } catch (error) {
-    console.error(error);
-  }
-};
 module.exports = {
   updateUserShows,
   getUserShows,
   createUserShows,
-  deleteUserShow,
 };
