@@ -2,59 +2,139 @@ const axios = require("axios");
 const ShowModel = require("../models/ShowModel");
 const UserModel = require("../models/UserModel");
 
+const NOT_LOGGED_IN_MESSAGE = "User is not logged in";
 
 async function getUserShows(userId) {
-  ShowModel.find({
-      email: normalizeString(userId),
+  if (!await userIsLoggedIn(userId)) {
+    console.log(NOT_LOGGED_IN_MESSAGE);
+    return;
+  }
+
+  console.log(`Getting show data for user ${userId}`);
+
+  return await UserModel.find({
+      userEmail: normalizeString(userId),
     },
   );
 }
 
-async function createUserShows(userId, shows) {
-  console.log(userId, shows);
-  // todo: for only this user
-  ShowModel.insertMany(shows);
-};
-
 async function updateUserShows(userId, shows) {
+  if (!await userIsLoggedIn(userId)) {
+    console.error(NOT_LOGGED_IN_MESSAGE);
+    return { error: "error", message: NOT_LOGGED_IN_MESSAGE };
+  }
 
+  const user = await UserModel
+    .findOne(
+      { userEmail: userId });
+
+  if (!user) {
+    console.error("User is not valid");
+    return { error: "error", message: NOT_LOGGED_IN_MESSAGE };
+  }
+
+
+  const updates = [];
+
+  if (Array.isArray(shows)) {
+    console.log("Updating by array");
+    upsert(user, shows, updates);
+  } else {
+    console.log("Updating by object");
+    upsert(user, [shows], updates);
+  }
+
+  user.userShows.push(...updates);
+
+  await user.save();
 };
+
+function upsert(user, shows, updates) {
+  for (let _show of shows) {
+    if (!_show?._id) {
+      console.log(`Inserting new show: ${_show.showTitle}`);
+      updates.push(_show);
+      continue;
+    }
+
+    const findIndex = user
+      .userShows
+      .findIndex(show => {
+        const _ = show._id === _show?._id ||
+          show._id.toString() === _show?._id;
+        return _;
+      });
+
+    console.log("Found index:", findIndex);
+
+    if (findIndex > -1) {
+      console.log(`Updating show: ${_show._id}`);
+      user.userShows[findIndex] = _show;
+    } else {
+      console.log(`Inserting show: ${_show._id}`);
+      updates.push(_show);
+    }
+  }
+}
 
 async function deleteUserShows(userId, shows) {
+  if (!await userIsLoggedIn(userId)) {
+    console.error(NOT_LOGGED_IN_MESSAGE);
+    return { error: "error", message: NOT_LOGGED_IN_MESSAGE };
+    return;
+  }
 
+  await UserModel
+    .deleteMany(
+      { userEmail: userId }); // https://mongoosejs.com/docs/api.html#model_Model.deleteMany
 };
 
 async function createNewUser(email, password) {
-  await UserModel.create({
-    userEmail: email,
-    userPassword: password,
-    userIsLoggedIn: false,
-    userShows: [],
-  });
+  await UserModel
+    .findOneAndUpdate(
+      { userEmail: normalizeString(email) },
+      {
+        userEmail: normalizeString(email),
+        userPassword: password,
+        userIsLoggedIn: false,
+        userShows: [],
+      },
+      {
+        upsert: true,
+      });
 };
 
 async function authorizeUser(email) {
   await UserModel.updateOne(
     { userEmail: normalizeString(email) },
-    { userIsLoggedIn: true });
+    { userIsLoggedIn: true },
+    { upsert: true });
 };
 
 async function deAuthorizeUser(email) {
   await UserModel.updateOne(
     { userEmail: normalizeString(email) },
-    { userIsLoggedIn: false });
+    { userIsLoggedIn: false },
+    { upsert: true });
 };
 
-validateCredentials = async userId =>
-  await UserModel
+async function validateCredentials(userId) {
+  return await UserModel
     .find({ userEmail: normalizeString(userId) })
     .length > 0;
+}
+
+async function userIsLoggedIn(userId) {
+  const user = await UserModel
+    .findOne({ userEmail: normalizeString(userId) });
+
+  return user && user.userIsLoggedIn;
+};
 
 normalizeString = strIn => strIn.toLowerCase();
 
 module.exports = {
   getUserShows,
-  createUserShows,
   updateUserShows,
   deleteUserShows,
   validateCredentials,
@@ -62,36 +142,3 @@ module.exports = {
   authorizeUser,
   deAuthorizeUser,
 };
-
-/*
-Data.getAllItems = async(req, res) => {
-	const data = req.body;
-	const items = await ItemModel.find({});
-	res.status(200).json(items);
-}
-*/
-/*
-Data.deleteOne = async(req, res) => {
-	const id = req.params.id;
-	const items = await ItemModel.deleteOne({_id:id});
-	res.status(200).json(items[0]);
-}
-*/
-/*
-Data.addAnItem = async(req,res,next) => {
-	try {
-		const data = req.body;
-		const item = new ItemModel(data);
-		await item.save();
-		res.status(200).json(item);
-	} catch(e) { next(e.message); }
-	}
-*/
-
-/*
-Data.getOneItem = async(req, res) => {
-	const id = req.params.id;
-	const items = await ItemModel.find({_id:id});
-	res.status(200).json(items[0]);
-}
-*/
