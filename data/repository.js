@@ -47,7 +47,7 @@ async function updateUserShows(userId, shows) {
   user.userShows.push(...updates);
 
   await user.save();
-};
+}
 
 function upsert(user, shows, updates) {
   for (let _show of shows) {
@@ -87,7 +87,7 @@ async function deleteUserShows(userId, shows) {
   await UserModel
     .deleteMany(
       { userEmail: userId }); // https://mongoosejs.com/docs/api.html#model_Model.deleteMany
-};
+}
 
 async function createNewUser(email, password) {
   await UserModel
@@ -102,26 +102,31 @@ async function createNewUser(email, password) {
       {
         upsert: true,
       });
-};
+}
 
 async function authorizeUser(email) {
-  await UserModel.updateOne(
-    { userEmail: normalizeString(email) },
-    { userIsLoggedIn: true },
-    { upsert: true });
-};
+  const user = await UserModel.findOne(
+    { userEmail: normalizeString(email) });
+
+  user.userIsLoggedIn = true;
+
+  await user.save();
+}
 
 async function deAuthorizeUser(email) {
-  await UserModel.updateOne(
-    { userEmail: normalizeString(email) },
-    { userIsLoggedIn: false },
-    { upsert: true });
-};
+  const user = await UserModel.findOne(
+    { userEmail: normalizeString(email) });
+
+  user.userIsLoggedIn = false;
+
+  await user.save();
+}
 
 async function validateCredentials(userId) {
-  return await UserModel
-    .find({ userEmail: normalizeString(userId) })
-    .length > 0;
+  const user = await UserModel
+    .find({ userEmail: normalizeString(userId) });
+
+  return user.length > 0;
 }
 
 async function userIsLoggedIn(userId) {
@@ -129,7 +134,7 @@ async function userIsLoggedIn(userId) {
     .findOne({ userEmail: normalizeString(userId) });
 
   return user && user.userIsLoggedIn;
-};
+}
 
 normalizeString = strIn => strIn.toLowerCase();
 
