@@ -21,7 +21,6 @@ app
   .use(express.urlencoded({ extended: true }))
   .get("/search/shows/:query", tvSearchController.searchTvShows)
   .get("/shows/:userId", tvShowsController.getUserShows)
-  .post("/shows/:userId", tvShowsController.createUserShows)
   .put("/shows/:userId", tvShowsController.updateUserShows)
   .post("/login", userAuthController.loginUser)
   .post("/logout", userAuthController.logoutUser)
