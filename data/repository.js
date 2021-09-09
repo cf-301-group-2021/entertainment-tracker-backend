@@ -5,7 +5,7 @@ const UserModel = require("../models/UserModel");
 
 async function getUserShows(userId) {
   ShowModel.find({
-      email: userId,
+      email: normalizeString(userId),
     },
   );
 }
@@ -24,24 +24,43 @@ async function deleteUserShows(userId, shows) {
 
 };
 
-async function validateCredentials(userId, password) {
-  const userExists = await UserModel.find({
-    userEmail: userId.toLowerCase(),
-  }).length > 0;
-
-  if (userExists) {
-    return true;
-  }
-
-  return false;
+async function createNewUser(email, password) {
+  await UserModel.create({
+    userEmail: email,
+    userPassword: password,
+    userIsLoggedIn: false,
+    userShows: [],
+  });
 };
+
+async function authorizeUser(email) {
+  await UserModel.updateOne(
+    { userEmail: normalizeString(email) },
+    { userIsLoggedIn: true });
+};
+
+async function deAuthorizeUser(email) {
+  await UserModel.updateOne(
+    { userEmail: normalizeString(email) },
+    { userIsLoggedIn: false });
+};
+
+validateCredentials = async userId =>
+  await UserModel
+    .find({ userEmail: normalizeString(userId) })
+    .length > 0;
+
+normalizeString = strIn => strIn.toLowerCase();
 
 module.exports = {
   getUserShows,
   createUserShows,
   updateUserShows,
   deleteUserShows,
-  validateUserAuth: validateCredentials,
+  validateCredentials,
+  createNewUser,
+  authorizeUser,
+  deAuthorizeUser,
 };
 
 /*

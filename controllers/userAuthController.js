@@ -2,38 +2,25 @@ const axios = require("axios");
 const HttpStatusCode = require("../common/httpStatusCodes");
 const repository = require("../data/repository");
 
-async function loginUser(req, res) {
-  let email;
-  let password;
-  let userIsAuthenticated;
+async function loginUser(request, response) {
+  const email = request.body.data.email;
+  const password = request.body.data.password;
+  const userIsAuthenticated = validateAuth(email, password);
 
-  try {
-    email = req.body.data.email;
-    password = req.body.data.password;
-    userIsAuthenticated = repository.validateUserAuth(email, password);
-  } catch (error) {
-    console.error(error);
-
-    res
-      .status(HttpStatusCode.CLIENT_ERROR_FORBIDDEN)
-      .send("Unable to validate the account.");
-
-    return;
+  if (!userIsAuthenticated) {
+    console.log(`Creating new user ${email}`);
+    repository.createNewUser(email, password);
   }
 
-  console.log(`Logging in user ${email}...`);
+  console.log(`Logging in user ${email}`);
+
+  repository.authorizeUser(email);
 
   try {
-    res
-      .status(HttpStatusCode.OK)
-      .send({
-        email: req.body.data.email,
-        password: req.body.data.password,
-      });
-  } catch
-    (error) {
+    response.status(HttpStatusCode.OK).send({ email });
+  } catch (error) {
     console.error(error);
-    res.status(HttpStatusCode.InternalServerError);
+    response.status(HttpStatusCode.InternalServerError);
   }
 }
 
@@ -44,6 +31,14 @@ async function logoutUser(req, res) {
     console.error(error);
   }
 };
+
+function validateAuth(email, password) {
+  try {
+    return repository.validateCredentials(email, password);
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 module.exports = {
   loginUser,
