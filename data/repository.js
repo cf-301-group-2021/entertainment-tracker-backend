@@ -1,38 +1,32 @@
-const axios = require("axios");
-const ShowModel = require("../models/ShowModel");
 const UserModel = require("../models/UserModel");
 
 const NOT_LOGGED_IN_MESSAGE = "User is not logged in";
 
 async function getUserShows(userId) {
-  if (!await userIsLoggedIn(userId)) {
+  if (!(await userIsLoggedIn(userId))) {
     console.log(NOT_LOGGED_IN_MESSAGE);
     return;
   }
 
   console.log(`Getting show data for user ${userId}`);
 
-  return await UserModel.find({
-      userEmail: normalizeString(userId),
-    },
-  );
+  return await UserModel.findOne({
+    userEmail: normalizeString(userId),
+  });
 }
 
 async function updateUserShows(userId, shows) {
-  if (!await userIsLoggedIn(userId)) {
+  if (!(await userIsLoggedIn(userId))) {
     console.error(NOT_LOGGED_IN_MESSAGE);
     return { error: "error", message: NOT_LOGGED_IN_MESSAGE };
   }
 
-  const user = await UserModel
-    .findOne(
-      { userEmail: userId });
+  const user = await UserModel.findOne({ userEmail: userId });
 
   if (!user) {
     console.error("User is not valid");
     return { error: "error", message: NOT_LOGGED_IN_MESSAGE };
   }
-
 
   const updates = [];
 
@@ -57,13 +51,10 @@ function upsert(user, shows, updates) {
       continue;
     }
 
-    const findIndex = user
-      .userShows
-      .findIndex(show => {
-        const _ = show._id === _show?._id ||
-          show._id.toString() === _show?._id;
-        return _;
-      });
+    const findIndex = user.userShows.findIndex((show) => {
+      const _ = show._id === _show?._id || show._id.toString() === _show?._id;
+      return _;
+    });
 
     console.log("Found index:", findIndex);
 
@@ -78,35 +69,32 @@ function upsert(user, shows, updates) {
 }
 
 async function deleteUserShows(userId, shows) {
-  if (!await userIsLoggedIn(userId)) {
+  if (!(await userIsLoggedIn(userId))) {
     console.error(NOT_LOGGED_IN_MESSAGE);
     return { error: "error", message: NOT_LOGGED_IN_MESSAGE };
     return;
   }
 
-  await UserModel
-    .deleteMany(
-      { userEmail: userId }); // https://mongoosejs.com/docs/api.html#model_Model.deleteMany
+  await UserModel.deleteMany({ userEmail: userId }); // https://mongoosejs.com/docs/api.html#model_Model.deleteMany
 }
 
 async function createNewUser(email, password) {
-  await UserModel
-    .findOneAndUpdate(
-      { userEmail: normalizeString(email) },
-      {
-        userEmail: normalizeString(email),
-        userPassword: password,
-        userIsLoggedIn: false,
-        userShows: [],
-      },
-      {
-        upsert: true,
-      });
+  await UserModel.findOneAndUpdate(
+    { userEmail: normalizeString(email) },
+    {
+      userEmail: normalizeString(email),
+      userPassword: password,
+      userIsLoggedIn: false,
+      userShows: [],
+    },
+    {
+      upsert: true,
+    }
+  );
 }
 
 async function authorizeUser(email) {
-  const user = await UserModel.findOne(
-    { userEmail: normalizeString(email) });
+  const user = await UserModel.findOne({ userEmail: normalizeString(email) });
 
   user.userIsLoggedIn = true;
 
@@ -114,8 +102,7 @@ async function authorizeUser(email) {
 }
 
 async function deAuthorizeUser(email) {
-  const user = await UserModel.findOne(
-    { userEmail: normalizeString(email) });
+  const user = await UserModel.findOne({ userEmail: normalizeString(email) });
 
   user.userIsLoggedIn = false;
 
@@ -123,20 +110,18 @@ async function deAuthorizeUser(email) {
 }
 
 async function validateCredentials(userId) {
-  const user = await UserModel
-    .find({ userEmail: normalizeString(userId) });
+  const user = await UserModel.find({ userEmail: normalizeString(userId) });
 
   return user.length > 0;
 }
 
 async function userIsLoggedIn(userId) {
-  const user = await UserModel
-    .findOne({ userEmail: normalizeString(userId) });
+  const user = await UserModel.findOne({ userEmail: normalizeString(userId) });
 
   return user && user.userIsLoggedIn;
 }
 
-normalizeString = strIn => strIn.toLowerCase();
+const normalizeString = (strIn) => strIn.toLowerCase();
 
 module.exports = {
   getUserShows,
