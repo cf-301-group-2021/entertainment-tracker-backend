@@ -12,7 +12,8 @@ async function searchTvShows(request, response) {
   try {
     const searchResult = await axios.get(query);
 
-    const responseShape = toDomainModel([...searchResult.data]);
+    const MAX_RESULTS_NON_INCLUSIVE = 9;
+    const responseShape = toDomainModel([...searchResult.data]).slice(0, MAX_RESULTS_NON_INCLUSIVE);
 
     response.status(HttpStatusCode.OK).send(responseShape);
   } catch (error) {
