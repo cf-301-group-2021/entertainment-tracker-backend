@@ -32,44 +32,56 @@ async function updateUserShows(userId, shows) {
     return { error: "error", message: NOT_LOGGED_IN_MESSAGE };
   }
 
-  const updates = [];
-
-  if (Array.isArray(shows)) {
-    console.log("Updating by array");
-    upsert(user, shows, updates);
-  } else {
-    console.log("Updating by object");
-    upsert(user, [shows], updates);
-  }
-
-  user.userShows.push(...updates);
-
+  user.userShows = shows;
   await user.save();
-}
 
-function upsert(user, shows, updates) {
-  for (let _show of shows) {
-    if (!_show?._id) {
-      console.log(`Inserting new show: ${_show.showTitle}`);
-      updates.push(_show);
-      continue;
+  /*
+    const user = await UserModel.findOne({ userEmail: userId });
+
+    if (!user) {
+      console.error("User is not valid");
+      return { error: "error", message: NOT_LOGGED_IN_MESSAGE };
     }
 
-    const findIndex = user.userShows.findIndex((show) => {
-      const _ = show._id === _show?._id || show._id.toString() === _show?._id;
-      return _;
-    });
+    const updates = [];
 
-    console.log("Found index:", findIndex);
-
-    if (findIndex > -1) {
-      console.log(`Updating show: ${_show._id}`);
-      user.userShows[findIndex] = _show;
+    if (Array.isArray(shows)) {
+      console.log("Updating by array");
+      upsert(user, shows, updates);
     } else {
-      console.log(`Inserting show: ${_show._id}`);
-      updates.push(_show);
+      console.log("Updating by object");
+      upsert(user, [shows], updates);
     }
+
+    user.userShows.push(...updates);
+
+    await user.save();
   }
+
+  function upsert(user, shows, updates) {
+    for (let _show of shows) {
+      if (!_show?._id) {
+        console.log(`Inserting new show: ${_show.showTitle}`);
+        updates.push(_show);
+        continue;
+      }
+
+      const findIndex = user.userShows.findIndex((show) => {
+        const _ = show._id === _show?._id || show._id.toString() === _show?._id;
+        return _;
+      });
+
+      console.log("Found index:", findIndex);
+
+      if (findIndex > -1) {
+        console.log(`Updating show: ${_show._id}`);
+        user.userShows[findIndex] = _show;
+      } else {
+        console.log(`Inserting show: ${_show._id}`);
+        updates.push(_show);
+      }
+    }
+  */
 }
 
 async function createNewUser(email, password) {
