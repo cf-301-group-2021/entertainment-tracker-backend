@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const ShowModel = require("./ShowModel");
+const ShowModel = require("./ShowSchema");
 
 const UserSchema = new mongoose.Schema({
   userEmail: { type: "String", required: true }, // unique id

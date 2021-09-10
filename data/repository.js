@@ -1,4 +1,4 @@
-const UserModel = require("../models/UserModel");
+const UserModel = require("../models/UserSchema");
 
 const NOT_LOGGED_IN_MESSAGE = "User is not logged in";
 
@@ -10,9 +10,13 @@ async function getUserShows(userId) {
 
   console.log(`Getting show data for user ${userId}`);
 
-  return await UserModel.findOne({
+  const userObject = await UserModel.findOne({
     userEmail: normalizeString(userId),
   });
+
+  const userShowData = userObject.userShows;
+
+  return userShowData;
 }
 
 async function updateUserShows(userId, shows) {
@@ -68,16 +72,6 @@ function upsert(user, shows, updates) {
   }
 }
 
-async function deleteUserShows(userId, shows) {
-  if (!(await userIsLoggedIn(userId))) {
-    console.error(NOT_LOGGED_IN_MESSAGE);
-    return { error: "error", message: NOT_LOGGED_IN_MESSAGE };
-    return;
-  }
-
-  await UserModel.deleteMany({ userEmail: userId }); // https://mongoosejs.com/docs/api.html#model_Model.deleteMany
-}
-
 async function createNewUser(email, password) {
   await UserModel.findOneAndUpdate(
     { userEmail: normalizeString(email) },
@@ -89,7 +83,7 @@ async function createNewUser(email, password) {
     },
     {
       upsert: true,
-    }
+    },
   );
 }
 
@@ -121,12 +115,11 @@ async function userIsLoggedIn(userId) {
   return user && user.userIsLoggedIn;
 }
 
-const normalizeString = (strIn) => strIn.toLowerCase();
+const normalizeString = strIn => strIn.toLowerCase();
 
 module.exports = {
   getUserShows,
   updateUserShows,
-  deleteUserShows,
   validateCredentials,
   createNewUser,
   authorizeUser,

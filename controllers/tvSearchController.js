@@ -23,24 +23,22 @@ async function searchTvShows(request, response) {
   }
 }
 
-function toDomainModel(externalApiModel) {
-  const DEFAULT = "Not available";
+function toDomainModel(upstreamDomainModelArray) {
+  const DEFAULT = "";
 
-  const result = externalApiModel.map(show =>
+  return upstreamDomainModelArray.map(show =>
     new Show({
       showTitle: show.show?.name ? show.show.name : DEFAULT,
       showDescription: show.show?.summary ? show.show.summary : DEFAULT,
       showStatus: show.show?.status ? show.show.status : DEFAULT,
       showNextEpisode24HourTime: show.show?.schedule?.time ? show.show.schedule.time : DEFAULT,
       showTimezone: show.show?.network?.country?.timezone ? show.show.network.country.timezone.replace(/[_]/g, " ") : DEFAULT,
-      showNextEpisodeDayOfWeek: show.show?.schedule?.days ? show.show.schedule.days : [DEFAULT],
+      showNextEpisodeDayOfWeek: show.show?.schedule?.days ? show.show.schedule.days : null,
       showNetwork: show.show?.network?.name ? show.show.network.name : DEFAULT,
       showImageSmall: show.show?.image?.medium ? show.show.image.medium : DEFAULT,
       showImageLarge: show.show?.image?.original ? show.show.image.original : DEFAULT,
     }),
   );
-
-  return result;
 }
 
 module.exports = {
